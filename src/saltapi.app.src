@@ -1,0 +1,20 @@
+{application, saltapi,
+ [{description, "An OTP application"},
+  {vsn, "1.0.1"},
+  {registered, []},
+  {mod, { saltapi_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    sync,
+    ibrowse,
+    jsx,
+    ssl
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
