@@ -1,12 +1,11 @@
 {application, saltapi,
- [{description, "An OTP application"},
+ [{description, "Salt API Client"},
   {vsn, "1.0.1"},
   {registered, []},
   {mod, { saltapi_app, []}},
   {applications,
    [kernel,
     stdlib,
-    sync,
     ibrowse,
     jsx,
     ssl

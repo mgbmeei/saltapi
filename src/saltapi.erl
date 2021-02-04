@@ -93,15 +93,18 @@ make_headers(Type, Payload) ->
 call_api(sync, Payload) ->
   Timeout = 60 * 3 * 1000, % three minutes
   {_, _, _, Res} = ibrowse:send_req(endpoint(), make_headers(sync, Payload),
-                                    post, Payload, [], Timeout),
+                                    post, Payload, conn_options(), Timeout),
   decode_results(Res);
 call_api(async, Payload) ->
   {ibrowse_req_id, _ReqID} =
-    ibrowse:send_req(endpoint(), make_headers(async, Payload), post, Payload).
+    ibrowse:send_req(endpoint(), make_headers(async, Payload),
+                     post, Payload, conn_options()).
 
 decode_results(Res) ->
   jsx:decode(list_to_binary(Res), [{labels, atom}, return_maps]).
 
+conn_options() ->
+  application:get_env(saltapi, ibrowse_opts, []).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,7 +142,7 @@ token() ->
                      [{"Content-Type", "application/x-www-form-urlencoded"},
                       {"Accept", "application/json"},
                       {"Content-Length", size(Payload)}],
-                     post, Payload),
+                     post, Payload, conn_options()),
   proplists:get_value("X-Auth-Token", Headers).
 
 %% INTERNAL
